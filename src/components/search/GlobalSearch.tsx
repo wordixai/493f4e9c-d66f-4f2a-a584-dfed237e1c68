@@ -138,9 +138,29 @@ export function GlobalSearch({ clients, galleries, bookings, onNavigate }: Globa
             setQuery(e.target.value);
             setIsOpen(true);
           }}
-          onFocus={() => setIsOpen(true)}
-          className="w-full pl-10 pr-10 py-2 bg-card border border-border rounded-lg placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm"
-          style={{ color: 'hsl(var(--foreground))', caretColor: 'hsl(var(--primary))' }}
+          style={{
+            width: '100%',
+            paddingLeft: '2.5rem',
+            paddingRight: '2.5rem',
+            paddingTop: '0.5rem',
+            paddingBottom: '0.5rem',
+            backgroundColor: 'hsl(20 14% 10%)',
+            border: '1px solid hsl(20 14% 20%)',
+            borderRadius: '0.5rem',
+            fontSize: '0.875rem',
+            color: '#f5f5f4',
+            caretColor: '#f59e0b',
+            outline: 'none',
+          }}
+          onFocus={(e) => {
+            setIsOpen(true);
+            e.currentTarget.style.borderColor = 'hsl(38 92% 50%)';
+            e.currentTarget.style.boxShadow = '0 0 0 2px hsl(38 92% 50% / 0.3)';
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = 'hsl(20 14% 20%)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         />
         {query && (
           <button
