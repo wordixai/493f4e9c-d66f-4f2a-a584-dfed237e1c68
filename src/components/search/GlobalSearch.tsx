@@ -139,7 +139,8 @@ export function GlobalSearch({ clients, galleries, bookings, onNavigate }: Globa
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          className="w-full pl-10 pr-10 py-2 bg-secondary/50 border border-border/50 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 text-sm"
+          className="w-full pl-10 pr-10 py-2 bg-card border border-border rounded-lg placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm"
+          style={{ color: 'hsl(var(--foreground))', caretColor: 'hsl(var(--primary))' }}
         />
         {query && (
           <button
@@ -147,53 +148,71 @@ export function GlobalSearch({ clients, galleries, bookings, onNavigate }: Globa
               setQuery('');
               setResults([]);
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         )}
       </div>
 
-      {isOpen && (query || results.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-popover border border-border/50 rounded-xl shadow-xl overflow-hidden z-50 animate-fade-in">
+      {isOpen && query && (
+        <div
+          className="absolute top-full left-0 right-0 mt-2 rounded-xl shadow-2xl overflow-hidden z-50"
+          style={{
+            backgroundColor: 'hsl(var(--card))',
+            border: '1px solid hsl(var(--border))'
+          }}
+        >
           {results.length > 0 ? (
-            <div className="py-2">
-              {results.map((result, index) => (
+            <div className="py-2 max-h-80 overflow-y-auto">
+              {results.map((result) => (
                 <button
                   key={`${result.type}-${result.id}`}
                   onClick={() => handleResultClick(result)}
-                  className="w-full px-4 py-3 flex items-center gap-3 hover:bg-secondary/50 transition-colors text-left"
-                  style={{ animationDelay: `${index * 30}ms` }}
+                  className="w-full px-4 py-3 flex items-center gap-3 transition-colors text-left"
+                  style={{ backgroundColor: 'transparent' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'hsl(var(--secondary))'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
                   {result.avatar ? (
                     <img
                       src={result.avatar}
                       alt=""
-                      className={`w-10 h-10 object-cover ${result.type === 'gallery' ? 'rounded-lg' : 'rounded-full'}`}
+                      className={`w-10 h-10 object-cover flex-shrink-0 ${result.type === 'gallery' ? 'rounded-lg' : 'rounded-full'}`}
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                    <div
+                      className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{ backgroundColor: 'hsl(var(--primary) / 0.2)', color: 'hsl(var(--primary))' }}
+                    >
                       {getIcon(result.type)}
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{result.title}</p>
-                    <p className="text-xs text-muted-foreground truncate">{result.subtitle}</p>
+                    <p className="text-sm font-medium truncate" style={{ color: 'hsl(var(--foreground))' }}>
+                      {result.title}
+                    </p>
+                    <p className="text-xs truncate" style={{ color: 'hsl(var(--muted-foreground))' }}>
+                      {result.subtitle}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded">
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span
+                      className="text-xs px-2 py-0.5 rounded"
+                      style={{ backgroundColor: 'hsl(var(--secondary))', color: 'hsl(var(--muted-foreground))' }}
+                    >
                       {getTypeLabel(result.type)}
                     </span>
-                    <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                    <ArrowRight className="w-4 h-4" style={{ color: 'hsl(var(--muted-foreground))' }} />
                   </div>
                 </button>
               ))}
             </div>
-          ) : query ? (
+          ) : (
             <div className="py-8 text-center">
-              <p className="text-muted-foreground">No results found for "{query}"</p>
+              <p style={{ color: 'hsl(var(--muted-foreground))' }}>No results for "{query}"</p>
             </div>
-          ) : null}
+          )}
         </div>
       )}
     </div>

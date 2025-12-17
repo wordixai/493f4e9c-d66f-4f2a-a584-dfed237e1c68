@@ -8,7 +8,8 @@
     "tengu_enable_versioned_plugins": false,
     "tengu_web_tasks": true,
     "tengu_thinkback": false,
-    "tengu_prompt_suggestion": true
+    "tengu_prompt_suggestion": true,
+    "tengu_ant_attribution_header_new": true
   },
   "cachedDynamicConfigs": {
     "tengu_1p_event_batch_config": {
