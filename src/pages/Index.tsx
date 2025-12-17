@@ -6,8 +6,9 @@ import { GalleriesView } from '@/components/views/GalleriesView';
 import { BookingsView } from '@/components/views/BookingsView';
 import { PackagesView } from '@/components/views/PackagesView';
 import { ReferralsView } from '@/components/views/ReferralsView';
+import { GlobalSearch } from '@/components/search/GlobalSearch';
 import { mockClients, mockGalleries, mockBookings, mockPackages, mockStats } from '@/data/mockData';
-import { Bell, Search } from 'lucide-react';
+import { Bell } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -38,14 +39,12 @@ const Index = () => {
       <div className="ml-64">
         <header className="h-16 border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-10">
           <div className="h-full px-6 flex items-center justify-between">
-            <div className="relative w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search clients, galleries, bookings..."
-                className="w-full pl-10 pr-4 py-2 bg-secondary/50 border border-border/50 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 text-sm"
-              />
-            </div>
+            <GlobalSearch
+              clients={mockClients}
+              galleries={mockGalleries}
+              bookings={mockBookings}
+              onNavigate={setActiveTab}
+            />
             <div className="flex items-center gap-4">
               <button className="relative w-10 h-10 rounded-lg hover:bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
                 <Bell className="w-5 h-5" />
